@@ -52,3 +52,6 @@ docs/
 
 - 로컬 서버 실행 확인 (/health 동작 확인)
 
+
+## 트러블슈팅
+개발 중 발생한 문제와 해결 과정은 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)에 정리했습니다.
