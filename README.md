@@ -39,3 +39,16 @@ docs/
 ├── ERD.md
 └── API_SPEC.md
 ```
+
+## 개발 로그
+
+### 07/15
+
+- 로컬 개발 환경 세팅 (pyenv, 가상환경, Python 버전 맞추기)
+
+- GitHub 레포 생성
+
+- FastAPI 프로젝트 스켈레톤 생성
+
+- 로컬 서버 실행 확인 (/health 동작 확인)
+
