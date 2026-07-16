@@ -55,17 +55,24 @@
 
 ### 1. bcrypt '72바이트 초과' 에러
 - **증상** : 회원가입 요청 시 에러 발생. 입력한 비밀번호는 '1234'처럼 짧지만 '72바이트를 넘을 수 없다'는 메세지 나옴
-  'ValueError: password cannot be longer than 72 bytes, truncate manually if necessary'
+
+      'ValueError: password cannot be longer than 72 bytes, truncate manually if necessary'
+
 - **원인** : bcrypt는 원래 비밀번호를 최대 72바이트까지 처리하는 특성 있음. 하지만 이번 에러는 실제 비밀번호가 길어서 발생한 것이 아님, 비밀번호 해싱에 쓰는 'passlib'과 최신 'bcrypt(4.1이상)' 버전 사이의 호환성 문제로 발생함. 두 라이브러리가 맞지 않아 짧은 비밀번호에도 에러가 발생함
 - **해결** : bcrypt를 4.1 미만 버전으로 고정. 이후 requirements.txt에 버전 기록해 재현 가능하도록 함
-  'pip install 'bcrypt<4.1''
+
+     pip install 'bcrypt<4.1'
+
 - **배운 점** : 에러 메세지의 표면적 내용 (72바이트 초과)과 실제 원인(라이브러리 버전 충돌)이 다를 수 있음. 에러 메세지만 보고 문제를 해결하려고 했다면 한참 헤맸을 것임. 라이브러리 버전 충돌은 문제가 된 버전을 고정하는 것이 표준적인 해결방법. requirements.txt에 버전 명시해두면 다른 환경에서도 같은 문제 피할 수 있음
 
 ### 2. MySQL localhost와 127.0.0.1 접속 차이
 - **증상** : 백엔드(appuser 계정)은 MySQL에 정상 접속해서 회원가입 데이터까지 저장됐는데 터미널에서 'docker exec'로 같은 appuser 계정 접속 시도하면 거부 당함
-  'ERROR 1045 (28000): Access denied for user 'appuser'@'localhost' (using password: YES)'
+
+      ERROR 1045 (28000): Access denied for user 'appuser'@'localhost' (using password: YES)
+
 - **원인** : MySQL은 접속 출처(host)에 따라 권한 다르게 취급함. 'localhost'로 접속하면 유닉스 소켓이라는 통로를 쓰고, '127.0.0.1'로 접속하면 TCP 네트워크 통로를 쓰는데, MySQL은 둘을 다른 접속으로 구분함. 백엔드는 컨테이너 외부에서 네트워크(TCP)로 접속해 성공했지만, 'docker exec'로 컨테이너 내부에서 'localhost'로 붙는 경로에 appuser 권한이 없어 거부됨. 
 - **해결** : 데이터 확인이 목적이었으므로 모든 접속이 허용된 root 계정으로 조회해 데이터가 정상 작동된 것을 확인함
-  'docker exec -it size-compare-mysql mysql -u root -prootpass size_compare -e "SELECT ... FROM users;"'
+      docker exec -it size-compare-mysql mysql -u root -prootpass size_compare -e "SELECT ... FROM users;"
+      
 appuser에 localhost 권한을 추가하면 docker exec 접속도 가능하지만, 조치하지 않기로 판단함. 앱은 TCP(127.0.0.1)로 정상 접속하고, 거부된 localhost 소켓은 실제로 쓰지 않는 경로이며, 안 쓰는 경로를 위해 권한을 넓히는 것은 최소 권한 원칙에 어긋나기 때문. 버그가 아니라 MySQL의 정상적인 접속 구분 동작임.
 - **배운 점** : localhost와 127.0.0.1(TCP)는 MySQL에서 다른 접속 경로임. 모든 이상 현상이 고쳐야 할 문제는 아니며, 실제 사용 경로와 보안 원칙을 근거로 조치하지 않는 것도 엔지니어링 판단임.
