@@ -56,7 +56,7 @@ docs/
 
 - Docker Desktop 설치, MySQL 컨테이너 구동
 
-## 7/16
+### 7/16
 
 - .env 연동 및 테이블 생성(init_db.py)
 
