@@ -52,11 +52,11 @@ docs/
 
 - 로컬 서버 실행 확인 (/health 동작 확인)
 
-## 7/16
-
 - DB 연결 및 SQLAlchemy 모델구현 (user, garments, wishlist)
 
 - Docker Desktop 설치, MySQL 컨테이너 구동
+
+## 7/16
 
 - .env 연동 및 테이블 생성(init_db.py)
 
@@ -65,6 +65,12 @@ docs/
 - 회원가입 bcrypt 해싱 저장, 이메일 중복 시 409 처리
 
 - 회원가입 201 확인 및 DB 저장(해싱된 비번) 검증 완료
+
+- 로그인 API 구현(POST/auth/login, JWT 발급)
+
+- 로그인 성공 200 + 토큰 발급 확인, 실패 시 401 (이메일/비번 구분 X)
+
+- feature/login 브랜치에서 작업 후 main에 merge(브랜치 전략)
 
 
 ## 트러블슈팅
