@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     db_user: str = "root"
     db_password: str = ""
     db_name: str = "size_compare"
+    jwt_secret_key: str = "dev-secret"
+    jwt_algorithm: str = "HS256"
+    jwt_expire_minutes: int = 60
 
     @property
     def database_url(self) -> str:
