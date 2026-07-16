@@ -42,7 +42,7 @@ docs/
 
 ## 개발 로그
 
-### 07/15
+### 7/15
 
 - 로컬 개발 환경 세팅 (pyenv, 가상환경, Python 버전 맞추기)
 
@@ -52,12 +52,26 @@ docs/
 
 - 로컬 서버 실행 확인 (/health 동작 확인)
 
+## 7/16
+
+- DB 연결 및 SQLAlchemy 모델구현 (user, garments, wishlist)
+
+- Docker Desktop 설치, MySQL 컨테이너 구동
+
+- .env 연동 및 테이블 생성(init_db.py)
+
+- 회원가입 API 구현(POST/auth/signup)
+
+- 회원가입 bcrypt 해싱 저장, 이메일 중복 시 409 처리
+
+- 회원가입 201 확인 및 DB 저장(해싱된 비번) 검증 완료
+
 
 ## 트러블슈팅
 개발 중 발생한 문제와 해결 과정은 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)에 정리했습니다.
 
 
-## 로드맵
+## 추후 로드맵
 
 ### 1단계 — MVP (현재)
 - 회원가입/로그인: 이메일 + 비밀번호 + 비밀번호 해싱(bcrypt)
