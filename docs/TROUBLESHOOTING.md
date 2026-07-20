@@ -73,6 +73,39 @@
 - **원인** : MySQL은 접속 출처(host)에 따라 권한 다르게 취급함. 'localhost'로 접속하면 유닉스 소켓이라는 통로를 쓰고, '127.0.0.1'로 접속하면 TCP 네트워크 통로를 쓰는데, MySQL은 둘을 다른 접속으로 구분함. 백엔드는 컨테이너 외부에서 네트워크(TCP)로 접속해 성공했지만, 'docker exec'로 컨테이너 내부에서 'localhost'로 붙는 경로에 appuser 권한이 없어 거부됨. 
 - **해결** : 데이터 확인이 목적이었으므로 모든 접속이 허용된 root 계정으로 조회해 데이터가 정상 작동된 것을 확인함
       docker exec -it size-compare-mysql mysql -u root -prootpass size_compare -e "SELECT ... FROM users;"
-      
+
 appuser에 localhost 권한을 추가하면 docker exec 접속도 가능하지만, 조치하지 않기로 판단함. 앱은 TCP(127.0.0.1)로 정상 접속하고, 거부된 localhost 소켓은 실제로 쓰지 않는 경로이며, 안 쓰는 경로를 위해 권한을 넓히는 것은 최소 권한 원칙에 어긋나기 때문. 버그가 아니라 MySQL의 정상적인 접속 구분 동작임.
 - **배운 점** : localhost와 127.0.0.1(TCP)는 MySQL에서 다른 접속 경로임. 모든 이상 현상이 고쳐야 할 문제는 아니며, 실제 사용 경로와 보안 원칙을 근거로 조치하지 않는 것도 엔지니어링 판단임.
+
+
+
+## 2026-07-20 (옷장 CRUD 구현)
+
+### 1. 문법은 맞는데 조회가 안 되는 문제 (에러 없이 잘못된 조건)
+- **증상** : 옷 목록 조회(`GET /garments`)에서는 1번 옷이 정상적으로 나오는데, 상세 조회(`GET /garments/1`)만 계속 404가 나옴. 코드에 에러 표시도 없고 서버 로그에도 아무 문제가 없었음
+- **원인** : 상세 조회 서비스의 조회 조건을 잘못 작성함
+
+      .filter(Garment.user_id == garment_id, Garment.user_id == user_id)
+
+  앞쪽이 `Garment.id`여야 하는데 `Garment.user_id`로 되어 있었음. 그래서 "user_id가 1이면서 동시에 user_id가 2인 옷"을 찾는 조건이 되어 항상 아무것도 걸리지 않았음. 목록 조회는 조건이 하나뿐이라 정상 동작했기 때문에 문제가 드러나지 않았음
+- **해결** : 조건의 앞쪽을 `Garment.id`로 수정
+
+      .filter(Garment.id == garment_id, Garment.user_id == user_id)
+
+- **배운 점** : 문법이 맞는 코드는 에러를 내지 않기 때문에 파이썬도 편집기도 잡아주지 못함. 의미만 틀린 오류는 실제로 요청을 보내봐야 발견됨. 특히 이번 경우처럼 계정 번호가 우연히 일치했다면 테스트도 통과하면서 남의 데이터가 조회되는 상태가 될 수 있었음. 조회 조건은 눈으로 한 번 더 확인해야 하고, 이런 유형을 자동으로 잡으려면 테스트 코드가 필요함
+
+### 2. Swagger에서 토큰을 입력할 칸이 없는 문제
+- **증상** : 인증이 필요한 API를 테스트하려고 Swagger의 Authorize 버튼을 눌렀는데, 토큰을 붙여넣는 칸이 없고 username·password 입력칸만 나옴. 여기에 계정 정보를 넣어도 인증되지 않음
+- **원인** : 인증 의존성에서 `OAuth2PasswordBearer`를 사용했기 때문. 이 방식은 Swagger가 아이디·비밀번호를 받아 스스로 로그인 요청을 보내는 구조인데, 이때 form 형식으로 전송함. 반면 이 프로젝트의 로그인 API는 JSON(`{"email": ..., "password": ...}`)을 받도록 구현되어 있어 형식이 맞지 않았음
+- **해결** : 인증 의존성을 `HTTPBearer` 방식으로 교체
+
+      bearer_scheme = HTTPBearer()
+
+      def get_current_user(
+          credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+          db: Session = Depends(get_db),
+      ) -> User:
+          payload = jwt.decode(credentials.credentials, ...)
+
+  `HTTPBearer`는 요청 헤더의 토큰만 확인하는 단순한 방식이라, Swagger에도 토큰 입력칸 하나만 표시됨. 로그인 API로 발급받은 토큰을 그대로 붙여넣어 인증 성공
+- **배운 점** : 같은 JWT 인증이라도 어떤 보안 스킴을 쓰느냐에 따라 Swagger가 요청을 만드는 방식이 달라짐. `OAuth2PasswordBearer`는 로그인 API가 form 형식을 받는 경우에 맞는 방식이고, 로그인 API가 JSON을 받는 구조라면 `HTTPBearer`가 맞음. 인증 의존성은 API 명세와 짝을 맞춰서 선택해야 함
