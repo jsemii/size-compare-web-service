@@ -17,6 +17,7 @@ class Garment(Base):
     sleeve_cm = Column(DECIMAL(5, 1), nullable=True)
     waist_cm = Column(DECIMAL(5, 1), nullable=True)
     hip_cm = Column(DECIMAL(5, 1), nullable=True)
+    photo_url = Column(String(500), nullable=True)
 
     created_at = Column(DateTime, nullable=False, server_default=func.now())
 
