@@ -1,8 +1,7 @@
 from app.schemas.garment import GarmentCreate, GarmentUpdate
 from sqlalchemy.orm import Session
-
 from app.models.garment import Garment
-from app.schemas.garment import GarmentCreate
+
 
 def create_garment(db: Session, user_id: int, data: GarmentCreate) -> Garment:
     garment = Garment(user_id=user_id, **data.model_dump())
