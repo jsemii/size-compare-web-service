@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict
 
 class GarmentCreate(BaseModel):
     name: str
+    category: str | None = None
     total_length_cm: Decimal | None = None
     shoulder_cm: Decimal | None = None
     chest_cm: Decimal | None = None
@@ -15,6 +16,7 @@ class GarmentCreate(BaseModel):
 
 class GarmentUpdate(BaseModel):
     name: str | None = None
+    category: str | None = None
     total_length_cm: Decimal | None = None
     shoulder_cm: Decimal | None = None
     chest_cm: Decimal | None = None
@@ -28,6 +30,7 @@ class GarmentResponse(BaseModel):
     
     id: int
     name: str
+    category: str | None = None
     total_length_cm: Decimal | None = None
     shoulder_cm: Decimal | None = None
     chest_cm: Decimal | None = None
