@@ -96,3 +96,18 @@
 - **원인**: 컬럼 문자셋은 `utf8mb4`로 정상. 접속한 클라이언트 쪽 문자셋 설정 문제였음
 - **해결**: 접속 시 `--default-character-set=utf8mb4` 옵션을 붙여 재접속
 - **배운 점**: `SHOW FULL COLUMNS`의 Collation을 먼저 보면 데이터가 깨진 건지 화면만 깨진 건지 구분됨. 데이터는 멀쩡했으므로 복구 작업이 필요 없었고, 원인 위치를 먼저 좁히는 게 중요함
+
+
+## 2026-07-22
+
+### 1. pip freeze로 만든 requirements.txt에 테스트 도구 섞임
+- **증상**: pip install -r requirements-dev.txt 실행 시 pytest가 requirements.txt (line 26)에서 설치됐다고 출력됨
+- **원인**: pip freeze가 개발용 도구까지 전부 담아버림
+- **해결**: requirements.txt에 pytest 관련 파일 모두 지운 뒤, dev파일에 -r 명령어 추가
+- **배운 점**: 개발용과 운영용 의존성을 분리해야함. 에러가 없어도 예상한 출력이 안나오면 의심해야함
+
+### 2. passlib DeprecationWarning
+- **증상**: pytest에서 16 passed 했지만 1 warning으로 경고 뜸
+- **원인**: passlib이 파이썬 3.13에서 없어질 부품 사용
+- **해결**: 3.12 사용중이므로 동작 이상 없음. 또한 버전 고정 유지로 대응 완료
+- **배운 점**: 에러는 지금 안돌아가는 것, 경고는 지금은 되지만 나중에 문제가 될 것

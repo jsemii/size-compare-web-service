@@ -98,6 +98,16 @@ docs/
 
 - 카테고리 불일치 400, 미존재·타계정 데이터 404로 구분 처리
 
+### 7/22
+
+- pytest 도입 -> tests/ 디렉터리 분리
+
+- requirements.txt와 requirements-dev.txt 분리 -> 배포에서 pytest 미포함
+
+- 비교 서비스 단위 테스트 10개
+
+- 인증 단위 테스트 6개: 해싱 3, JWT 발급 3
+
 
 ## 트러블슈팅
 개발 중 발생한 문제와 해결 과정은 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)에 정리했습니다.
