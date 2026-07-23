@@ -1,4 +1,3 @@
-from app.services.compare import convert_unit
 from app.services.compare import convert_unit, build_message, compare_garment_with_wish
 from types import SimpleNamespace
 
