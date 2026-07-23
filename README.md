@@ -104,7 +104,7 @@ docs/
 
 - tests/ 폴더를 app/과 나란히 만들어 검사 코드 분리
 
-- requirements.txt와 requirements-dev.txt 분리 — 배포용에는 pytest 미포함
+- requirements.txt와 requirements-dev.txt 분리: 배포용에는 pytest 미포함
 
 - 비교 기능 테스트 10개 (단위 변환 4, 문장 생성 3, 비교 로직 3)
 

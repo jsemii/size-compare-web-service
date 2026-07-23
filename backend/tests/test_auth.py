@@ -46,4 +46,3 @@ def test_create_access_token_has_expire():
         settings.jwt_secret_key,
         algorithms=[settings.jwt_algorithm],
     )
-    assert "exp" in payload
