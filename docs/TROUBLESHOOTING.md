@@ -132,3 +132,12 @@
 - **원인**: dockerignore가 없어 가상환경과 .env까지 전부 복사됨
 - **해결**: dockerignore를 만들어 가상환경, 캐시, 비밀번호를 제외해 3.7kB로 줄임
 - **배운 점**: .gitignore와 .dockerignore는 별개라 도구마다 무시 목록을 따로 챙겨야 함. 안챙기면 통이 무거워지고 비밀정보까지 들어가 보안에도 취약해짐
+
+
+## 7/24
+
+### 1. 프론트에서 로그인 요청을 보냈는데 막힘
+- **증상**: 콘솔에 "blocked by CORS policy" 빨간 에러. Network 탭에 preflight 405, 진짜 요청은 나가지도 않음
+- **원인**: 프론트(file://)와 백엔드(127.0.0.1:8000)의 출처가 달라 브라우저가 막음. 서버에 OPTIONS 처리가 없어 미리 묻는 요청(preflight)이 405로 실패
+- **해결**: main.py에 CORSMiddleware 추가 -> 컨테이너 재빌드(docker compose up -d --build) -> preflight 200으로 통과
+- **배운 점**: 막는 건 브라우저지만 허락은 서버가 하므로 프론트 에러라고 프론트만 보면 안됨. 
