@@ -10,10 +10,13 @@ btn.addEventListener("click", async function () {
         body: JSON.stringify({ email: email, password: password })
     });
 
+    if (response.ok) {
     const data = await response.json();
-    console.log(data);
-
     localStorage.setItem("token", data.access_token);
-
-    document.getElementById("message").textContent = `상태코드: ${response.status}`;
+    window.location.href = "garments.html";
+    
+} else {
+    document.getElementById("message").textContent = "이메일 또는 비밀번호가 틀렸습니다";
+    
+}
 });
