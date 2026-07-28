@@ -121,12 +121,23 @@ docs/
 
 - 받은 토큰을 localStorage에 저장 — 새로고침해도 유지
 
+### 7/28
+
+- 옷 등록 화면 작성(HTML/JavaScript)
+
+- 저장된 토큰을 Authorization 헤더에 실어 인증된 요청 전송
+
+- 입력값 8개 읽어 Post /garments로 등록
+
+- 빈 치수 칸은 전송 에서 제외해 바지 등 카테고리별 부분 입력 지원 (서버에 null 저장)
+
 
 ## 트러블슈팅
 개발 중 발생한 문제와 해결 과정은 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)에 정리했습니다.
 
 
 ## 추후 로드맵
+
 
 ### 1단계 — MVP (현재)
 - 회원가입/로그인: 이메일 + 비밀번호 + 비밀번호 해싱(bcrypt)
