@@ -133,6 +133,15 @@ docs/
 
 - 로그인 → 옷 등록 → 위시 등록으로 이어지는 사용 흐름 완성
 
+### 8/5
+
+- 로그인 후 메인화면(main.html, main.js) 추가
+
+- 메인 -> 옷장 등록/위시 등록 페이지 이동 연결 (addEventListener + window.location.href)
+
+- 로그인 성공 목적지 garments.html -> main.html 변경
+
+
 
 ## 트러블슈팅
 개발 중 발생한 문제와 해결 과정은 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)에 정리했습니다.
