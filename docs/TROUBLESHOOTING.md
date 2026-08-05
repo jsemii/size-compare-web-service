@@ -156,3 +156,11 @@
 - **원인**: 옷 등록, 위시 등록은 로그인 토큰이 있어야 동작. 파일을 바로 열면 유효한 토큰 없음
 - **해결**: 로그인 화면에서 로그인 후 주소창에서 garments를 wishlist로 변경 후 이동. 같은 브라우저라 토큰 유지됨
 - **배운 점**: 다른 브라우저는 로그인 인증 토큰이 유지안됨
+
+
+## 8/5
+### 1. 메인 화면에서 위시 등록 버튼만 페이지 전환 안됨
+- **증상**: 메인 화면에서 옷장 등록 버튼은 이동되는데 위시 등록 버튼만 클릭해도 반응 없음. Console에 `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')` 에러 1개
+- **원인**: main.html의 위시 버튼 id와 main.js의 getElementById 인자 문자열이 서로 달라서, 버튼을 못 찾고 null이 반환됨. null에 addEventListener를 걸려다 에러 발생
+- **해결**: 두 파일의 id 문자열을 대소문자·하이픈까지 똑같이 맞춤
+- **배운 점**: getElementById는 못 찾으면 null을 돌려준다. 에러는 Console 맨 아랫줄(at main.js:줄번호)부터 읽으면 사고 위치를 바로 찾을 수 있고, "null에서 뭘 읽으려 했다"는 대개 요소를 못 찾은 것이다
