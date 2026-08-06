@@ -1,0 +1,63 @@
+body {
+    font-family: -apple-system, "Malgun Gothic", sans-serif;
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #000;
+    background: #fff;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 28px;
+}
+
+input, select {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #000;
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #fff;
+}
+
+button {
+    padding: 12px 20px;
+    margin-right: 8px;
+    margin-top: 8px;
+    border: 1px solid #000;
+    border-radius: 0;
+    background: #000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #fff;
+    color: #000;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+}
+
+tr:first-child td {
+    font-weight: 700;
+    border-bottom: 2px solid #000;
+}
