@@ -164,3 +164,11 @@
 - **원인**: main.html의 위시 버튼 id와 main.js의 getElementById 인자 문자열이 서로 달라서, 버튼을 못 찾고 null이 반환됨. null에 addEventListener를 걸려다 에러 발생
 - **해결**: 두 파일의 id 문자열을 대소문자·하이픈까지 똑같이 맞춤
 - **배운 점**: getElementById는 못 찾으면 null을 돌려준다. 에러는 Console 맨 아랫줄(at main.js:줄번호)부터 읽으면 사고 위치를 바로 찾을 수 있고, "null에서 뭘 읽으려 했다"는 대개 요소를 못 찾은 것이다
+
+
+## 8/6
+### 1. 코드 교체 시 옛날 줄이 남아 중복 선언 에러
+- **증상**: const 'body'/'result'/'token' has already been declared 같은 SyntaxError
+- **원인**: 코드 수정하면서 옛날 줄을 안 지워 같은 변수가 두 번 선언됨
+- **해결**: 중복된 const 줄 삭제
+- **배운 점**: const같은 중복 허용안되는 코드는 수정 시, 한개만 선언되게 수정하기
