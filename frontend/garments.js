@@ -3,6 +3,13 @@ console.log(token);
 
 const btn = document.getElementById("register-btn");
 
+function toCm(value) {
+    if (!value) return value;
+    const unit = document.getElementById("unit-select").value;
+    if (unit == "inch") return value / 2.54;
+    return value;
+}
+
 btn.addEventListener("click", async function () {
     const name = document.getElementById("name").value;
     const category = document.getElementById("category").value;
@@ -15,12 +22,12 @@ btn.addEventListener("click", async function () {
 
     const body = { name: name, category: category };
 
-    if(total_length_cm) body.total_length_cm = total_length_cm;
-    if(shoulder_cm) body.shoulder_cm = shoulder_cm;
-    if(chest_cm) body.chest_cm = chest_cm;
-    if(sleeve_cm) body.sleeve_cm = sleeve_cm;
-    if(waist_cm) body.waist_cm = waist_cm;
-    if(hip_cm) body.hip_cm = hip_cm;
+    if(total_length_cm) body.total_length_cm = toCm(total_length_cm);
+    if(shoulder_cm) body.shoulder_cm = stoCm(houlder_cm);
+    if(chest_cm) body.chest_cm = toCm(chest_cm);
+    if(sleeve_cm) body.sleeve_cm = toCm(sleeve_cm);
+    if(waist_cm) body.waist_cm = toCm(waist_cm);
+    if(hip_cm) body.hip_cm = toCm(hip_cm);
 
     const response = await fetch("http://127.0.0.1:8000/garments", {
         method: "POST",
@@ -35,4 +42,9 @@ btn.addEventListener("click", async function () {
     console.log(data);
 
     document.getElementById("message").textContent = `상태코드: ${response.status}`;
+
 });
+
+    document.getElementById("main-btn").addEventListener("click", function () {
+        window.location.href = "main.html";
+    });
