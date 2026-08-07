@@ -11,7 +11,7 @@ wishlistBtn.addEventListener("click", () => {
 });
 
 async function loadGarments() {
-    const response = await fetch("http://127.0.0.1:8000/garments", {
+    const response = await fetch("/api/garments", {
         headers: { "Authorization": `Bearer ${token}` }
     });
     const data = await response.json();
@@ -29,7 +29,7 @@ async function loadGarments() {
 loadGarments();
 
 async function loadWishlists() {
-    const response = await fetch("http://127.0.0.1:8000/wishlists", {
+    const response = await fetch("/api/wishlists", {
         headers: { "Authorization": `Bearer ${token}` }
     });
     const data = await response.json();
@@ -52,7 +52,7 @@ compareBtn.addEventListener("click", async function () {
     const garmentId = document.getElementById("garment-select").value;
     const wishlistId = document.getElementById("wishlist-select").value;
 
-    const response = await fetch(`http://127.0.0.1:8000/compare?garment_id=${garmentId}&wishlist_id=${wishlistId}`, {
+    const response = await fetch(`/api/compare?garment_id=${garmentId}&wishlist_id=${wishlistId}`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
 

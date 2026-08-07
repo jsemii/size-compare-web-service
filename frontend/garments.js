@@ -29,7 +29,7 @@ btn.addEventListener("click", async function () {
     if(waist_cm) body.waist_cm = toCm(waist_cm);
     if(hip_cm) body.hip_cm = toCm(hip_cm);
 
-    const response = await fetch("http://127.0.0.1:8000/garments", {
+    const response = await fetch("/api/garments", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
