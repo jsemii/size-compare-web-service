@@ -153,13 +153,20 @@ docs/
 
 ### 8/7
 
-- Nginx 컨테이너 추가 (docker-compose): "/" 정적 프론트 서빙, "/api" 백엔드 리버스 프록시
+- Nginx 컨테이너 추가 (docke=r-compose): "/" 정적 프론트 서빙, "/api" 백엔드 리버스 프록시
 
 - 프론트 fetch 주소를 절대경로(127.0.0.1:8000) → 상대경로(/api)로 변경
 
 - 출처 통일로 CORSMiddleware 제거
 
 - 로그인 폼에 Enter 키 제출 기능 추가
+### 8/12
+
+- LG 노트북(부트캠프 지급)에 병행 개발 환경 구축
+
+- WSL2(Ubuntu) + Docker Desktop(WSL2 backend) + pyenv 3.12.13 설치
+
+- Swagger(/docs) 접속 확인, 맥·LG 노트북 양쪽에서 병행 개발 가능한 상태 확보
 
 
 
