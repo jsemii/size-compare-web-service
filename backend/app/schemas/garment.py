@@ -12,7 +12,7 @@ class GarmentCreate(BaseModel):
     sleeve_cm: Decimal | None = None
     waist_cm: Decimal | None = None
     hip_cm: Decimal | None = None
-    photo_url: str | None = None
+    photo_key: str | None = None
 
 class GarmentUpdate(BaseModel):
     name: str | None = None
@@ -23,7 +23,7 @@ class GarmentUpdate(BaseModel):
     sleeve_cm: Decimal | None = None
     waist_cm: Decimal | None = None
     hip_cm: Decimal | None = None
-    photo_url: str | None = None
+    photo_key: str | None = None
 
 class GarmentResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -37,5 +37,5 @@ class GarmentResponse(BaseModel):
     sleeve_cm: Decimal | None = None
     waist_cm: Decimal | None = None
     hip_cm: Decimal | None = None
-    photo_url: str | None = None
+    photo_key: str | None = None
     created_at: datetime
