@@ -168,6 +168,16 @@ docs/
 
 - Swagger(/docs) 접속 확인, 맥·LG 노트북 양쪽에서 병행 개발 가능한 상태 확보
 
+### 8/14
+
+- garment photo_url → photo_key 컬럼명 변경 (S3 object key 저장 목적)
+
+- DB 테이블 재생성으로 스키마 동기화 (init_db는 backend/에서 실행)
+
+- boto3 도입, S3 업로드 함수(upload_image) 작성
+
+- wishlist 사진 전환은 garment 흐름 완성 후로 보류
+
 
 
 ## 트러블슈팅

@@ -180,3 +180,20 @@
 - **원인**: 브라우저가 이전 버전 JS를 캐시에 저장해두고 그대로 사용
 - **해결**: 개발자도구 연 상태에서 새로고침 버튼 길게 눌러 "캐시 비우기 및 강력 새로고침"
 - **배운 점**: JS 수정 후 반영 안 되면 코드보다 캐시를 먼저 의심
+
+
+## 8/14
+### 1. init_db.py 실행 시 "No such file or directory"
+- **증상**: python init_db.py 실행 시 can't open file '.../init_db.py': [Errno 2] No such file or directory
+- **원인**: init_db.py는 프로젝트 루트가 아니라 backend/ 안에 있는데, 루트에서 실행함
+- **해결**: cd backend 후 python init_db.py 실행 (from app.models import 경로도 backend/ 기준이라 여기서 실행해야 맞음)
+- **배운 점**: 실행 위치가 곧 import 기준 경로. init_db는 항상 backend/에서 실행하기
+
+### 2. 새 노트북에서 테이블이 존재하지 않음
+- **증상**: DESC garments 실행 시 Table 'size_compare.garments' doesn't exist
+- **원인**: DB 데이터는 Git 동기화 대상이 아니라(머신별 로컬), 새 노트북에선 테이블이 아직 없음. git pull로 코드는 따라오지만 DB는 안 따라옴
+- **해결**: backend/에서 python init_db.py 실행해 현재 모델 기준으로 테이블 생성
+- **배운 점**: 노트북 간 공유되는 건 스키마 코드지 DB 데이터가 아님. 새 환경에선 init_db 재실행이 필수
+
+
+
