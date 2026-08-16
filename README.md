@@ -178,6 +178,13 @@ docs/
 
 - wishlist 사진 전환은 garment 흐름 완성 후로 보류
 
+### 8/16
+
+- AWS 계정 활성화 + S3 버킷 생성 (ap-northeast-2, 퍼블릭 차단, SSE-S3)
+
+- IAM 최소권한 사용자·정책 생성, .env에 자격증명 등록
+
+- 맥북 환경 동기화 (git pull, boto3, DB 재생성)
 
 
 ## 트러블슈팅
