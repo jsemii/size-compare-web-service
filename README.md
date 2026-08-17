@@ -21,6 +21,17 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
+## 노트북 전환 시 명령어
+
+```bash
+cd ~/dev/size-compare-web-service
+source .venv/bin/activate
+git pull                          # 코드·문서 최신화
+docker compose up -d              # 컨테이너 켜기
+
+git add ... && git commit && git push
+```
+
 ## 디렉터리 구조
 
 ```
