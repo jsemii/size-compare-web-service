@@ -12,6 +12,10 @@ class Settings(BaseSettings):
     jwt_secret_key: str = "dev-secret"
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 60
+    aws_access_key_id: str = ""
+    aws_secret_access_key: str = ""
+    aws_region: str = "ap-northeast-2"
+    s3_bucket_name: str = ""
 
     @property
     def database_url(self) -> str:
