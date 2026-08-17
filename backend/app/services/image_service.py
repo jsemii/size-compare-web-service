@@ -1,12 +1,15 @@
-import os
+from app.core.config import settings
 import uuid
 import boto3
 
 # S3 리모컨 하나 (region은 서울 고정)
-s3_client = boto3.client("s3", region_name="ap-northeast-2")
-
-# 버킷 이름은 .env에서 읽어옴(아직 버킷 없으니 지금 빈 값일 수 있음)
-BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+s3_client = boto3.client(
+    "s3",
+    region_name=settings.aws_region,
+    aws_access_key_id=settings.aws_access_key_id,
+    aws_secret_access_key=settings.aws_secret_access_key,
+)
+BUCKET_NAME = settings.s3_bucket_name
 
 def upload_image(file):
     # ① 파일 확장자 뽑기 "photo.jpg" -> "jpg"
