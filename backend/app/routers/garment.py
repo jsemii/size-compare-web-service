@@ -6,6 +6,7 @@ from app.db.session import get_db
 from app.models.user import User
 from app.schemas.garment import GarmentCreate, GarmentResponse, GarmentUpdate
 from app.services import garment as garment_service
+from fastapi import UploadFile, File
 
 router = APIRouter(prefix = "/garments", tags=["garments"])
 
@@ -16,6 +17,21 @@ def create_garment(
     current_user: User = Depends(get_current_user),
 ):
     return garment_service.create_garment(db, current_user.id, data)
+
+@router.post("/{garment_id}/photo", response_model=GarmentResponse)
+def upload_garment_photo(
+    garment_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    garment = garment_service.set_garment_photo(db, current_user.id, garment_id, file)
+    if garment is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="옷을 찾을 수 없습니다",
+        )
+    return garment
 
 @router.get("", response_model=list[GarmentResponse])
 def get_garments(
