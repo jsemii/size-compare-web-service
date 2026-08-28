@@ -1,11 +1,23 @@
 from app.schemas.garment import GarmentCreate, GarmentUpdate
 from sqlalchemy.orm import Session
 from app.models.garment import Garment
+from app.services.image_service import upload_image
 
 
 def create_garment(db: Session, user_id: int, data: GarmentCreate) -> Garment:
     garment = Garment(user_id=user_id, **data.model_dump())
     db.add(garment)
+    db.commit()
+    db.refresh(garment)
+    return garment
+
+def set_garment_photo(db: Session, user_id: int, garment_id: int, file) -> Garment | None:
+    garment = get_garment(db, user_id, garment_id)
+    if garment is None:
+        return None
+
+    key = upload_image(file)        # S3에 업로드 → key 받기
+    garment.photo_key = key         # DB에 key 저장
     db.commit()
     db.refresh(garment)
     return garment
