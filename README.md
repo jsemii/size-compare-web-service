@@ -197,6 +197,16 @@ docs/
 
 - 맥북 환경 동기화 (git pull, boto3, DB 재생성)
 
+### 8/28
+
+- .env 경로를 절대경로(BASE_DIR)로 고정, 흩어진 .env를 backend/.env 하나로 통합
+
+- S3 사진 업로드 백엔드 완성: upload_image(S3 저장 + Content-Type), get_image_url(presigned URL)
+
+- 사진 업로드 엔드포인트 추가 (POST /garments/{id}/photo), Swagger로 실제 업로드 검증
+
+- 프로젝트 범위 조정: 운영·CI/CD·모니터링·배치 제외, 사진 업로드 + 프론트 연결 + EC2 배포로 축소
+
 
 ## 트러블슈팅
 개발 중 발생한 문제와 해결 과정은 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)에 정리했습니다.

@@ -196,4 +196,12 @@
 - **배운 점**: 노트북 간 공유되는 건 스키마 코드지 DB 데이터가 아님. 새 환경에선 init_db 재실행이 필수
 
 
+## 8/28
+### N. 코드를 고쳐도 Swagger에 새 엔드포인트가 안 뜸
+- **증상**: 라우터에 엔드포인트를 추가하고 서버를 재시작해도 /docs에 반영 안 됨. 코드(grep)·import·문법 다 정상인데 화면에만 안 보임
+- **원인**: 세션 시작 시 docker compose up으로 띄운 backend 컨테이너가 8000번 포트를 잡고 옛 코드를 서빙 중. 로컬에서 켠 uvicorn은 포트가 이미 점유돼 무시됨. 브라우저는 Docker 쪽(옛 코드)에 연결됨
+- **해결**: lsof -i :8000으로 포트 점유 프로세스 확인(com.docke = Docker) → docker compose stop backend로 컨테이너만 끄고(mysql은 유지) → uvicorn 재실행 → 브라우저 캐시 무시 새로고침(Cmd+Shift+R)
+- **배운 점**: 코드가 맞는데 화면에 안 보이면 "서버가 진짜 새 코드를 읽는지" 의심. lsof로 누가 포트를 잡았는지 먼저 확인. 로컬 개발은 Docker backend를 끄고 uvicorn --reload 하나만 띄우기
+
+
 
