@@ -38,4 +38,5 @@ class GarmentResponse(BaseModel):
     waist_cm: Decimal | None = None
     hip_cm: Decimal | None = None
     photo_key: str | None = None
+    photo_url: str | None = None
     created_at: datetime
