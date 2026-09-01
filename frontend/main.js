@@ -61,6 +61,12 @@ compareBtn.addEventListener("click", async function () {
 
     const result = document.getElementById("result");
 
+    // 에러 응답(400, 404 등)이면 메시지 보여주고 멈추기
+    if (!response.ok) {
+        result.innerHTML = `<p style="color: red;">${data.detail}</p>`;
+        return;
+    }
+
     let html = "<table border='1'>";
     html += "<tr><td>항목</td><td>내 옷</td><td>위시</td><td>차이</td></tr>";
 
