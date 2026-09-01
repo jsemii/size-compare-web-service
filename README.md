@@ -207,6 +207,15 @@ docs/
 
 - 프로젝트 범위 조정: 운영·CI/CD·모니터링·배치 제외, 사진 업로드 + 프론트 연결 + EC2 배포로 축소
 
+### 9/1
+
+- 조회 응답에 presigned URL(photo_url) 포함: photo_key를 임시 링크로 변환해 응답, to_response 헬퍼로 분리 (service=DB / router=응답 포맷 계층 분리)
+
+- 프론트 사진 업로드 연동: garment 등록 시 FormData로 사진 함께 전송 (등록 → id 받기 → 사진 업로드 2단계)
+
+- 비교 화면 에러 처리: response.ok 체크 후 실패 시 detail 메시지 표시 (카테고리 불일치 등)
+
+- 로컬 전체 흐름 검증: Docker Compose(Nginx+백엔드+MySQL)로 회원가입~옷/위시 등록~사진 업로드~비교까지 실제 동작 확인
 
 ## 트러블슈팅
 개발 중 발생한 문제와 해결 과정은 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)에 정리했습니다.
