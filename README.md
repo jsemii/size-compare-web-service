@@ -1,5 +1,11 @@
 # 옷 사이즈 비교 서비스 (Size Compare Web Service)
 
+> **시연 GIF 위치 (아직 미등록):** `docs/images/demo.gif`
+>
+> *운영 종료 후 로컬 환경에서 재현한 화면*
+>
+> 30~60초 촬영 흐름: 회원가입 → 옷장 등록 → 위시 등록 → 사이즈 비교 → cm/inch 전환
+
 ## 목차
 
 - [1. 프로젝트 소개](#1-프로젝트-소개)
@@ -22,9 +28,13 @@
 
 직접 겪은 문제를 정의하고, 기획부터 개발·배포까지 **1인 풀스택**으로 구현한 프로젝트입니다.
 
-### 서비스 이용하기
+### 프로젝트 및 서비스 상태
 
-👉 http://13.124.223.245
+- **현재 상태:** 운영 종료(배포 비용 문제). 기존 공개 서버는 더 이상 제공하지 않습니다.
+- **개발 기간:** 2026-07-15~2026-09-01 (Git 기록 기준)
+- **운영 기간:** 2026-08-31 배포 및 외부 접속 확인 (DEVLOG 기준) ~ 종료 날짜 확인 필요
+- **역할:** 1인 풀스택 — 기획, API·프론트엔드 구현, Docker Compose 구성 및 AWS EC2/S3 배포
+- **OpenAI API:** 연동 없음
 
 ---
 
@@ -78,7 +88,7 @@
 
 ### 4.2 내 옷장 등록
 
-잘 맞는 옷의 상세 치수(총장·어깨·가슴·소매·허리·엉덩이)와 사진 한 장을 등록합니다. 사진은 AWS S3에 저장하고, DB에는 객체 키(photo_key)만 저장합니다.
+잘 맞는 옷의 상세 치수(총장·어깨·가슴·소매·허리·엉덩이)와 사진 한 장을 등록합니다. 사진 업로드를 설정한 경우 AWS S3에 저장하고, DB에는 객체 키(photo_key)만 저장합니다. AWS 미설정 로컬 데모에서는 옷장 등록은 가능하지만 사진 업로드는 안내 메시지를 표시합니다.
 
 ### 4.3 위시 상품 등록
 
@@ -199,13 +209,22 @@ POST /api/garments/{garment_id}/photo   (multipart/form-data)
 git clone https://github.com/jsemii/size-compare-web-service.git
 cd size-compare-web-service
 
-# backend/.env 에 DB·JWT·AWS 자격증명 설정 (커밋 금지)
-
-docker compose up -d --build                       # 백엔드·MySQL·Nginx 기동
+docker compose up -d --build                       # MySQL·백엔드·Nginx 기동
 docker compose exec backend python init_db.py      # 테이블 생성
+docker compose exec backend python seed_demo.py    # 별도 로컬 데모 계정·샘플 데이터 생성
 ```
 
-브라우저에서 `http://localhost` 접속.
+브라우저에서 `http://localhost` 접속. 데모 로그인은 `demo@example.com` / `demo1234`입니다. 샘플 데이터는 로컬 Compose DB에만 생성되며 실제 사용자나 운영 계정과 분리되어 있습니다. 새 계정을 직접 가입해도 됩니다.
+
+### 로컬 설정 항목
+
+Compose는 로컬 데모 전용 설정을 사용하며 `backend/.env`를 읽지 않습니다. `backend/.env.example`은 Compose 밖에서 백엔드를 직접 실행할 때 참고하는 예시입니다.
+
+- **MySQL:** Compose 내부 호스트 `mysql`, DB `size_compare`, 사용자 `appuser`, 비밀번호 `apppass`. 로컬 컨테이너 전용 값입니다.
+- **JWT:** 로컬 데모용 키가 Compose에 지정되어 있습니다. 배포에 재사용하지 마세요. 직접 실행 시 `backend/.env.example`을 복사해 별도 설정하고, 임의의 강한 키를 사용하세요.
+- **AWS:** 회원가입·로그인, 옷장/위시 등록 및 조회, 사이즈 비교는 AWS 없이 사용할 수 있습니다. 사진 업로드와 S3 사진 URL 발급은 AWS S3 자격증명 및 버킷 설정이 필요합니다. 설정이 없으면 사진 업로드 요청에 안내 메시지가 표시됩니다.
+
+종료: `docker compose down`. 로컬 DB까지 삭제하려면 `docker compose down -v`를 실행합니다. 이 명령은 로컬 데모 데이터를 지웁니다.
 
 ---
 

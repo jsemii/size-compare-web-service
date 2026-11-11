@@ -23,7 +23,7 @@ btn.addEventListener("click", async function () {
     const body = { name: name, category: category };
 
     if(total_length_cm) body.total_length_cm = toCm(total_length_cm);
-    if(shoulder_cm) body.shoulder_cm = toCm(houlder_cm);
+    if(shoulder_cm) body.shoulder_cm = toCm(shoulder_cm);
     if(chest_cm) body.chest_cm = toCm(chest_cm);
     if(sleeve_cm) body.sleeve_cm = toCm(sleeve_cm);
     if(waist_cm) body.waist_cm = toCm(waist_cm);
@@ -56,7 +56,11 @@ btn.addEventListener("click", async function () {
             },
             body: formData
         });
-        console.log("사진 업로드:", photoResponse.status);
+        if (!photoResponse.ok) {
+            const photoError = await photoResponse.json();
+            document.getElementById("message").textContent = photoError.detail || "사진 업로드에 실패했습니다.";
+            return;
+        }
     }
 
     document.getElementById("message").textContent = `상태코드: ${response.status}`;

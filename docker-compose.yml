@@ -11,18 +11,33 @@ services:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpass"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   backend:
     build: ./backend
     container_name: size-compare-backend
-    env_file:
-      - ./backend/.env
     environment:
       DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: appuser
+      DB_PASSWORD: apppass
+      DB_NAME: size_compare
+      JWT_SECRET_KEY: local-demo-only-change-before-deployment
+      JWT_ALGORITHM: HS256
+      JWT_EXPIRE_MINUTES: 60
+      AWS_ACCESS_KEY_ID: ""
+      AWS_SECRET_ACCESS_KEY: ""
+      AWS_REGION: ap-northeast-2
+      S3_BUCKET_NAME: ""
     ports:
       - "8000:8000"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   nginx:
     image: nginx:1.27-alpine

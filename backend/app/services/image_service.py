@@ -1,4 +1,5 @@
 from app.core.config import settings
+from fastapi import HTTPException, status
 import uuid
 import boto3
 
@@ -11,7 +12,16 @@ s3_client = boto3.client(
 )
 BUCKET_NAME = settings.s3_bucket_name
 
+
+def require_s3_configuration():
+    if not all((settings.aws_access_key_id, settings.aws_secret_access_key, BUCKET_NAME)):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="사진 업로드를 사용하려면 AWS S3 설정이 필요합니다.",
+        )
+
 def upload_image(file):
+    require_s3_configuration()
     # ① 파일 확장자 뽑기 "photo.jpg" -> "jpg"
     extension = file.filename.split(".")[-1]
 

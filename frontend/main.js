@@ -51,8 +51,9 @@ const compareBtn = document.getElementById("compare-btn");
 compareBtn.addEventListener("click", async function () {
     const garmentId = document.getElementById("garment-select").value;
     const wishlistId = document.getElementById("wishlist-select").value;
+    const unit = document.getElementById("unit-select").value;
 
-    const response = await fetch(`/api/compare?garment_id=${garmentId}&wishlist_id=${wishlistId}`, {
+    const response = await fetch(`/api/compare?garment_id=${garmentId}&wishlist_id=${wishlistId}&unit=${unit}`, {
         headers: { "Authorization": `Bearer ${token}` }
     });
 
@@ -68,7 +69,7 @@ compareBtn.addEventListener("click", async function () {
     }
 
     let html = "<table border='1'>";
-    html += "<tr><td>항목</td><td>내 옷</td><td>위시</td><td>차이</td></tr>";
+    html += `<tr><td>항목</td><td>내 옷 (${data.unit})</td><td>위시 (${data.unit})</td><td>차이 (${data.unit})</td></tr>`;
 
     const fieldNames = {
         total_length: "총길이",
